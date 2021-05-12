@@ -5,9 +5,9 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 import bs4 as BeautifulSoup
 import urllib.request  
 import nltk
-nltk.download('stopwords')
 
 # getting the page from the URL
+# replace this place-filler URL with any URL of your choice!
 web_page = urllib.request.urlopen('https://en.wikipedia.org/wiki/Vincent_van_Gogh')
 
 # extracting the article from the page
@@ -71,12 +71,12 @@ def _calculate_sentence_scores(sentences, freq) -> dict:
 
 def _calculate_average_score(sentence_weight) -> int:
    
-    #calculating the average score for the sentences
+    # calculating the average score for the sentences
     sum_values = 0
     for entry in sentence_weight:
         sum_values += sentence_weight[entry]
 
-    #getting sentence average value from source text
+    # getting sentence average value from source text
     average_score = (sum_values / len(sentence_weight))
 
     return average_score
@@ -94,19 +94,19 @@ def _get_article_summary(sentences, sentence_weight, threshold):
 
 def _run_article_summary(article):
     
-    #creating a dictionary for the word frequency table
+    # creating a dictionary for the word frequency table
     freq = _create_dictionary_table(article)
 
-    #tokenizing the sentences
+    # tokenizing the sentences
     sentences = sent_tokenize(article)
 
-    #algorithm for scoring a sentence by its words
+    # algorithm for scoring a sentence by its words
     sentence_scores = _calculate_sentence_scores(sentences, freq)
 
     #getting the threshold
     threshold = _calculate_average_score(sentence_scores)
 
-    #producing the summary
+    # producing the summary
     article_summary = _get_article_summary(sentences, sentence_scores, 1.5 * threshold)
 
     return article_summary
